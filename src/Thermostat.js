@@ -1,3 +1,5 @@
+'use strict';
+
 function Thermostat() {
     this.temperature = 20;
     this.minTemperature = 10;
@@ -39,3 +41,20 @@ Thermostat.prototype.powerSaveModeOn = function () {
 Thermostat.prototype.reset = function () {
     this.temperature = 20;
 };
+
+Thermostat.prototype.currentEnergyUsage = function () {
+
+    if (this.temperature < 25 && this.temperature > 18) {
+        console.log("test");
+        return "medium-usage";
+    }
+    else if (this.temperature < 18) {
+        return "low-usage";
+    }
+    else if (this.temperature > 25) {
+        return "high-usage";
+    }
+    else
+        return "error";
+};
+

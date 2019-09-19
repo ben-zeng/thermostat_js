@@ -1,3 +1,5 @@
+'use strict';
+
 describe("Thermostat", function() {
     let thermostat;
 
@@ -96,9 +98,28 @@ describe("Thermostat", function() {
 
     describe('#reset', function() {
         it ("reset temperature back to 20 degrees", function() {
-            thermostat.temperature = 25;
+            for (let i = 0; i < 2 ; i++) {
+                thermostat.up();
+            }
             thermostat.reset();
             expect(thermostat.temperature).toEqual(20);
+        });
+    });
+
+    describe('#currentEnergyUsage', function() {
+        it ("returns 'low-usage' if temperature is less than 18 degrees ", function() {
+            thermostat.temperature = 15;
+            expect(thermostat.currentEnergyUsage()).toEqual("low-usage");
+        });
+
+        it ("returns 'medium-usage' if temperature is less than 18 degrees ", function() {
+            thermostat.temperature = 22;
+            expect(thermostat.currentEnergyUsage()).toEqual("medium-usage");
+        });
+
+        it ("returns 'low-usage' if temperature is less than 18 degrees ", function() {
+            thermostat.temperature = 30;
+            expect(thermostat.currentEnergyUsage()).toEqual("high-usage");
         });
     });
 
