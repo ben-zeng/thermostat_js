@@ -35,7 +35,6 @@ describe("Thermostat", function() {
         });
 
 
-
     });
 
     describe('#up', function() {
@@ -70,14 +69,39 @@ describe("Thermostat", function() {
         });
     });
 
-    describe('#powerSaveModeOff', function() {
+    describe('#powerSaveModeToggle', function() {
         it ("turns power save mode off", function() {
-            thermostat.powerSaveModeOff();
+            thermostat.powerSaveModeToggle();
             expect(thermostat.powerSaveMode).toBeFalsy();
         });
 
-        it ("when power save mode off, maximum temperature is 32 degrees", function() {
-            thermostat.powerSaveModeOff();
+        it ("turns power save mode on when off", function() {
+            thermostat.powerSaveModeToggle();
+            thermostat.powerSaveModeToggle();
+            expect(thermostat.powerSaveMode).toBeTruthy();
+        });
+
+    });
+
+    describe("#updateTempLimits", function() {
+        it ("updates maximum temperature to be 32 degrees", function() {
+            thermostat.powerSaveModeToggle();
+            expect(thermostat.maxTemperature).toEqual(32);
+        })
+    });
+
+    describe('When power save mode is...', function() {
+        it ("...on, maximum temperature is 25 degrees", function() {
+            for (let i = 0; i < 5 ; i++) {
+                thermostat.up();
+            }
+            expect(function() {
+                thermostat.up();
+            }).toThrowError("Maximum temperature reached")
+        });
+
+        it ("...off, maximum temperature is 32 degrees", function() {
+            thermostat.powerSaveModeToggle();
             for (let i = 0; i < 12 ; i++) {
                 thermostat.up();
             }
@@ -86,14 +110,6 @@ describe("Thermostat", function() {
             }).toThrowError("Maximum temperature reached")
         });
 
-    });
-
-    describe('#powerSaveModeOn', function() {
-        it ("turns power save mode on", function() {
-            thermostat.powerSaveModeOff();
-            thermostat.powerSaveModeOn();
-            expect(thermostat.powerSaveMode).toBeTruthy();
-        });
     });
 
     describe('#reset', function() {

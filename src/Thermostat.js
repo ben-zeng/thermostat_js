@@ -29,14 +29,13 @@ Thermostat.prototype.isMaxTemp = function () {
     return (this.temperature === this.maxTemperature)
 };
 
-Thermostat.prototype.powerSaveModeOff = function () {
-    this.powerSaveMode = false;
-    this.maxTemperature = 32;
+Thermostat.prototype.powerSaveModeToggle = function () {
+    this.powerSaveMode = !this.powerSaveMode;
+    this.setMaxTempLimits();
 };
 
-Thermostat.prototype.powerSaveModeOn = function () {
-    this.powerSaveMode = true;
-    this.maxTemperature = 25;
+Thermostat.prototype.setMaxTempLimits = function () {
+    this.powerSaveMode === true ? this.maxTemperature = 25 : this.maxTemperature = 32
 };
 
 Thermostat.prototype.reset = function () {
