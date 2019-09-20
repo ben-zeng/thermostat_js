@@ -2,27 +2,23 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-16">
+  <meta charset="utf-8">
   <script src="./src/Thermostat.js"></script>
   <script src="./lib/jquery-3.4.1.js"></script>
   <style>
     .low-usage {
       color: green;
     }
-
     .medium-usage {
       color: black;
     }
-
     .high-usage {
       color: red;
     }
   </style>
 
   <script>
-
     $(document).ready(function() {
-
       let thermostat = new Thermostat();
       updateTemperature();
       updatePowerSaveMode();
@@ -32,19 +28,12 @@
         thermostat.up();
         updateTemperature();
       });
-
       $( "#down-btn" ).click(function() {
         thermostat.down();
         updateTemperature();
       });
-
-      $( "#power-save-on-btn" ).click(function() {
-        thermostat.powerSaveModeOn();
-        updatePowerSaveMode();
-      });
-
-      $( "#power-save-off-btn" ).click(function() {
-        thermostat.powerSaveModeOff();
+      $( "#power-save-btn" ).click(function() {
+        thermostat.powerSaveModeToggle();
         updatePowerSaveMode();
       });
 
@@ -52,23 +41,19 @@
         thermostat.reset();
         updateTemperature();
       });
-
       function updateTemperature() {
         $('#temperature').text(`Current Temperature: ${thermostat.temperature}°C`);
         $('#temperature').attr("class", thermostat.currentEnergyUsage());
       }
-
       function updatePowerSaveMode() {
         $('#power-save-mode').text(`Power Save Mode: ${thermostat.powerSaveMode ? "On" : "Off"}`);
       }
-
       function updateWeatherLondon() {
         $.get("https://api.openweathermap.org/data/2.5/weather?q=London,uk&APPID=f13fa47e2c7e4a6c449ab9854c3707b3&units=metric", function(weatherResponse) {
           $('#current-outdoor-temp').text(`Current temperature in ${weatherResponse.name}: ${weatherResponse.main.temp}°C`);
         })
       }
     });
-
   </script>
 
   <title>Thermostat</title>
